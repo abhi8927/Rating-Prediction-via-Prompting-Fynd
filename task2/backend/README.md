@@ -1,65 +1,64 @@
-# Task 2 Backend: Flask API
+# Task 2 Backend
 
-Flask-based REST API for the AI Feedback System. Handles review submissions, stores data in SQLite, and integrates with Google Gemini API for AI responses.
+Flask API for the feedback system. Handles review submissions, saves to SQLite, and calls Google Gemini API for AI responses.
 
 ## Features
 
-- RESTful API endpoints for review submission
-- Admin endpoints for viewing all reviews and analytics
-- SQLite database for persistent storage
-- Google Gemini API integration for AI responses
-- JSON schema validation for all requests/responses
-- Error handling for edge cases
+- API endpoints for submitting reviews
+- Admin endpoints to see all reviews and stats
+- SQLite database to store everything
+- Google Gemini API integration
+- JSON schema validation
+- Error handling
 
 ## Setup
 
-1. Install dependencies:
+Install dependencies:
 ```bash
 pip install -r requirements.txt
 ```
 
-2. Set environment variables:
 Create a `.env` file:
 ```
 GEMINI_API_KEY=your_api_key_here
 PORT=5000
 ```
 
-3. Run the server:
+Run the server:
 ```bash
 python app.py
 ```
 
-The API will be available at `http://localhost:5000`
+Runs on http://localhost:5000
 
 ## API Endpoints
 
-### Health Check
-- `GET /api/health` - Check if API is running
+**Health check:**
+- `GET /api/health` - check if server is running
 
-### User Endpoints
-- `POST /api/reviews` - Submit a new review
-  - Request body: `{"user_rating": 1-5, "user_review": "text"}`
-  - Returns: Review data with AI response
+**User endpoints:**
+- `POST /api/reviews` - submit a review
+  - Body: `{"user_rating": 1-5, "user_review": "text"}`
+  - Returns: review data with AI response
 
-### Admin Endpoints
-- `GET /api/admin/reviews` - Get all reviews
-- `GET /api/admin/stats` - Get analytics statistics
+**Admin endpoints:**
+- `GET /api/admin/reviews` - get all reviews
+- `GET /api/admin/stats` - get statistics
 
 ## Database
 
-SQLite database (`database.db`) is automatically created on first run. The `Review` model stores:
+SQLite database (`database.db`) gets created automatically. Stores:
 - User rating (1-5)
-- User review text
+- Review text
 - AI-generated response
 - AI summary
 - Recommended actions
 - Timestamp
 
-## Project Structure
+## Files
 
-- `app.py`: Main Flask application
-- `models.py`: Database models
-- `schemas.py`: JSON validation schemas
-- `routes/`: API route handlers
-- `services/`: External service integrations (Gemini API)
+- `app.py` - main Flask app
+- `models.py` - database models
+- `schemas.py` - JSON validation
+- `routes/` - API endpoints
+- `services/` - Gemini API integration

@@ -1,53 +1,50 @@
-# Task 2 Frontend: React Application
+# Task 2 Frontend
 
-React-based frontend with two dashboards: User Dashboard for submitting reviews and Admin Dashboard for viewing all submissions.
+React app with two dashboards: one for users to submit reviews, one for admins to see all submissions.
 
 ## Features
 
-- User Dashboard: Submit reviews with star ratings
-- Admin Dashboard: View all reviews with AI summaries and recommendations
+- User dashboard to submit reviews with ratings
+- Admin dashboard to view all reviews with AI summaries
 - Auto-refreshing admin dashboard
-- Analytics and filtering
+- Stats and filters
 - Responsive design
 
 ## Setup
 
-1. Install dependencies:
+Install dependencies:
 ```bash
 npm install
 ```
 
-2. Set environment variables:
 Create a `.env` file:
 ```
 REACT_APP_API_URL=http://localhost:5000
 ```
 
-3. Run development server:
+Run the dev server:
 ```bash
 npm start
 ```
 
-The app will open at `http://localhost:3000`
+Opens at http://localhost:3000
 
 ## Routes
 
-- `/` - User Dashboard (public-facing)
-- `/admin` - Admin Dashboard (internal)
+- `/` - User dashboard (public)
+- `/admin` - Admin dashboard (internal)
 
-## Project Structure
+## Files
 
-- `src/components/`: React components
-  - `UserDashboard.jsx`: User review submission interface
-  - `AdminDashboard.jsx`: Admin review management interface
-- `src/services/`: API client
-  - `api.js`: Functions for backend communication
-- `src/App.jsx`: Main app with routing
+- `src/components/UserDashboard.jsx` - user review form
+- `src/components/AdminDashboard.jsx` - admin view
+- `src/services/api.js` - API calls
+- `src/App.jsx` - routing
 
-## Building for Production
+## Build
 
 ```bash
 npm run build
 ```
 
-This creates an optimized build in the `build/` directory.
+Creates production build in `build/` folder.

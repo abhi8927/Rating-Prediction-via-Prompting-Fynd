@@ -1,325 +1,113 @@
-# Rating Prediction via Prompting - Project Report
+# Rating Prediction Project Report
 
-## Executive Summary
+## Overview
 
-This project implements two distinct tasks focused on leveraging Large Language Models (LLMs) for review classification and feedback management. Task 1 explores different prompting strategies for rating prediction, while Task 2 builds a production-ready web application with AI-powered feedback processing.
+This project has two parts. First part is about testing different ways to ask an AI to predict Yelp review ratings. Second part is building a web app where users can submit reviews and admins can see them with AI summaries.
 
----
+## Task 1: Rating Prediction
 
-## Task 1: Rating Prediction via Prompting
+### What I Did
 
-### Overall Approach
+I wanted to see which way of asking the AI works best for predicting star ratings. Used Google Gemini API and tested three different approaches on 200 Yelp reviews.
 
-The goal of Task 1 was to design and evaluate different prompting approaches for classifying Yelp reviews into 1-5 star ratings using Google Gemini API. The approach involved:
+The process was:
+1. Get the Yelp dataset from Kaggle
+2. Sample 200 reviews for testing
+3. Create three different prompt styles
+4. Test each one and measure results
+5. Compare them
 
-1. **Dataset Preparation**: Using the Yelp Reviews dataset from Kaggle, sampling 200 reviews for evaluation
-2. **Prompt Design**: Creating three distinct prompting strategies
-3. **Evaluation**: Measuring accuracy, JSON validity rate, and consistency
-4. **Comparison**: Analyzing trade-offs between approaches
+### Tech Choices
 
-### Design and Architecture Decisions
+Used Python with pandas for handling data. Google Gemini API for the AI calls. Jupyter notebook for running experiments. Built some utilities to parse JSON responses and handle errors.
 
-**Technology Stack:**
-- Python for data processing and API integration
-- Google Gemini API (gemini-pro model) for LLM inference
-- Pandas for data manipulation
-- Jupyter Notebook for interactive development and documentation
+### The Three Approaches
 
-**Evaluation Framework:**
-- Custom evaluation utilities to parse JSON responses
-- Robust error handling for malformed API responses
-- Systematic comparison across multiple metrics
+**Approach 1: Direct Classification**
 
-### Prompt Iterations and Improvements
+Just ask the AI directly to classify the review. Simple and fast. Added clear JSON format requirements so the output is easy to parse.
 
-#### Approach 1: Direct Classification
+**Approach 2: Few-Shot Learning**
 
-**Initial Design:**
-Simple instruction-based prompt that directly asks the model to classify the review.
+Give the AI some examples first, then ask it to classify. This helps it understand what you want. I picked examples covering different rating levels (1-5 stars) with explanations.
 
-**Rationale:**
-- Minimal prompt complexity
-- Fast API response times
-- Lower token costs
-- Baseline for comparison
+**Approach 3: Chain-of-Thought**
 
-**Improvements Made:**
-- Added explicit JSON format specification
-- Included explanation requirement for transparency
-- Structured output format for easier parsing
+Ask the AI to think through it step by step - identify positives, identify negatives, figure out sentiment, then map to a rating. This takes longer but sometimes gives better results.
 
-#### Approach 2: Few-Shot Learning
+### How I Evaluated
 
-**Initial Design:**
-Prompt includes examples to guide the model's understanding.
+Measured three things:
+1. Accuracy - how many predictions matched the real ratings
+2. JSON validity - how often the response was valid JSON I could parse
+3. Valid predictions - how many I could actually extract and compare
 
-**Rationale:**
-- Provides context through examples
-- Demonstrates expected output format
-- Helps model understand rating criteria
+Ran each approach on all 200 reviews, parsed the responses, and calculated the metrics.
 
-**Improvements Made:**
-- Selected diverse examples covering different rating levels
-- Included explanations in examples to show reasoning
-- Balanced positive, negative, and neutral examples
-
-#### Approach 3: Chain-of-Thought
-
-**Initial Design:**
-Step-by-step reasoning approach that asks the model to think through classification.
-
-**Rationale:**
-- Encourages structured reasoning
-- May improve accuracy through explicit analysis
-- Provides interpretable explanations
-
-**Improvements Made:**
-- Defined clear analysis steps (positive/negative aspects, sentiment mapping)
-- Structured the reasoning process explicitly
-- Ensured consistent output format despite longer responses
-
-### Evaluation Methodology and Results
-
-**Evaluation Metrics:**
-1. **Accuracy**: Percentage of correctly predicted ratings (exact match with actual ratings)
-2. **JSON Validity Rate**: Percentage of responses containing valid, parseable JSON
-3. **Valid Predictions Count**: Number of predictions that could be extracted and compared
-
-**Evaluation Process:**
-- Sampled 200 reviews from the Yelp dataset
-- Applied each prompting approach to all reviews
-- Parsed responses and extracted predicted ratings
-- Calculated metrics for each approach
-- Generated comparison table
-
-**Results:**
-The evaluation revealed:
-- **Direct Classification**: Fastest execution, moderate accuracy, good JSON validity
-- **Few-Shot Learning**: Improved accuracy through examples, maintained JSON validity
-- **Chain-of-Thought**: Best accuracy in some cases, but longer response times and potential JSON parsing challenges
-
-**Key Findings:**
-1. Few-shot learning provided the best balance of accuracy and reliability
-2. JSON validity is critical for production use - all approaches achieved high validity rates
-3. More complex prompts may improve accuracy but increase API costs and response times
-4. Consistency across runs indicates model reliability
-
-**Trade-offs:**
-- **Simplicity vs. Accuracy**: Simpler prompts are faster and cheaper but may sacrifice accuracy
-- **Context vs. Cost**: More context (few-shot) improves results but increases token usage
-- **Reasoning vs. Speed**: Chain-of-thought provides better explanations but takes longer
-
----
-
-## Task 2: Two-Dashboard AI Feedback System
-
-### Overall Approach
-
-Task 2 required building a production-style web application with two dashboards:
-1. **User Dashboard**: Public-facing interface for submitting reviews
-2. **Admin Dashboard**: Internal interface for viewing all submissions with AI-generated insights
-
-The system needed to be fully deployed, use server-side LLM calls, and handle edge cases gracefully.
-
-### Design and Architecture Decisions
-
-**Technology Stack:**
-- **Frontend**: React.js with React Router for navigation
-- **Backend**: Flask (Python) REST API
-- **Database**: SQLite for persistent storage
-- **LLM Integration**: Google Gemini API (server-side only)
-- **Deployment**: Vercel (frontend) and Render (backend)
-
-**Architecture Pattern:**
-- **Separation of Concerns**: Clear separation between frontend, backend, and database
-- **RESTful API**: Standard HTTP methods and status codes
-- **JSON Schemas**: Explicit request/response validation
-- **Service Layer**: Isolated LLM service for maintainability
-
-**Key Design Decisions:**
-1. **Server-Side LLM Calls**: All AI processing happens on the backend to protect API keys and ensure security
-2. **Persistent Storage**: SQLite database to maintain data across sessions
-3. **Auto-Refresh**: Admin dashboard automatically refreshes to show latest submissions
-4. **Error Handling**: Comprehensive error handling for API failures, empty reviews, and edge cases
-
-### System Architecture
-
-```
-┌─────────────────┐
-│  User Dashboard │
-│   (React.js)    │
-└────────┬────────┘
-         │ HTTP POST
-         ▼
-┌─────────────────┐
-│  Flask Backend  │
-│   (Python)      │
-└────────┬────────┘
-         │
-    ┌────┴────┐
-    │        │
-    ▼        ▼
-┌────────┐ ┌──────────────┐
-│ SQLite │ │ Gemini API   │
-│   DB   │ │ (LLM Calls)  │
-└────────┘ └──────────────┘
-         │
-         ▼
-┌─────────────────┐
-│ Admin Dashboard │
-│   (React.js)    │
-└─────────────────┘
-```
-
-### Prompt Iterations and Improvements
-
-#### User-Facing Response Generation
-
-**Initial Design:**
-Generic thank-you message based on rating.
-
-**Improvements:**
-- Personalized responses that acknowledge specific feedback
-- Different tone for positive vs. negative reviews
-- Professional yet warm language
-- 4-6 sentences for comprehensive acknowledgment
-
-**Final Prompt Structure:**
-- Acknowledges specific feedback
-- Shows appreciation
-- Addresses concerns or highlights positives
-- Demonstrates value of feedback
-- Maintains appropriate tone
-
-#### Review Summarization
-
-**Initial Design:**
-Simple extraction of key points.
-
-**Improvements:**
-- Comprehensive summaries (3-5 sentences)
-- Captures sentiment, themes, and specific details
-- Professional language suitable for business dashboard
-- Includes both positive and negative aspects
-
-#### Recommended Actions
-
-**Initial Design:**
-Generic action items.
-
-**Improvements:**
-- Detailed, actionable recommendations (4-6 bullet points)
-- Specific to review content and rating
-- Includes immediate and long-term actions
-- Strategic and measurable suggestions
-- Different focus based on rating (recovery for negative, enhancement for neutral, maintenance for positive)
-
-### System Behavior, Trade-offs, and Limitations
-
-#### System Behavior
-
-**User Dashboard:**
-- Clean, intuitive interface with star rating selection
-- Real-time character count and validation
-- Immediate AI-generated response upon submission
-- Clear success/error states
-- Professional, warm design
-
-**Admin Dashboard:**
-- Live-updating list of all submissions
-- Statistics and analytics (total reviews, rating distribution)
-- Filtering capabilities
-- AI-generated summaries and recommendations for each review
-- Professional visualization with bar charts
-
-**Backend API:**
-- RESTful endpoints with clear JSON schemas
-- Robust error handling
-- Database persistence
-- Server-side LLM integration
-- Health check endpoint
-
-#### Trade-offs
-
-**Database Choice:**
-- **SQLite**: Simple, file-based, no server setup required
-- **Trade-off**: Not suitable for high-concurrency production, but sufficient for this use case
-
-**Frontend Framework:**
-- **React.js**: Component-based, modern, good ecosystem
-- **Trade-off**: Requires build step, but provides excellent developer experience
-
-**LLM Integration:**
-- **Server-Side Only**: Secure, protects API keys
-- **Trade-off**: Slightly slower response times, but essential for security
-
-**Deployment:**
-- **Separate Frontend/Backend**: Clear separation, independent scaling
-- **Trade-off**: More complex deployment, but better architecture
-
-#### Limitations
-
-1. **API Rate Limits**: Google Gemini API has rate limits that could affect high-volume usage
-2. **Database Scalability**: SQLite is not suitable for high-concurrency scenarios
-3. **Response Time**: LLM calls add latency to user submissions (typically 2-5 seconds)
-4. **Cost**: Each review requires 3 LLM calls (response, summary, actions), increasing API costs
-5. **Error Recovery**: Limited retry logic for API failures
-6. **Data Validation**: Basic validation - could be enhanced with more sophisticated checks
-
-**Future Improvements:**
-- Implement caching for similar reviews
-- Add retry logic with exponential backoff
-- Migrate to PostgreSQL for production
-- Add user authentication for admin dashboard
-- Implement rate limiting
-- Add analytics dashboard with trends over time
-- Support for batch processing
-
----
+### Results
+
+Direct classification was fastest but accuracy was okay. Few-shot learning did better on accuracy while keeping JSON validity high. Chain-of-thought sometimes got the best accuracy but took longer and sometimes had parsing issues.
+
+The trade-off is: simpler prompts are faster and cheaper but might not be as accurate. More complex prompts can improve accuracy but cost more and take longer.
+
+## Task 2: Web App with Two Dashboards
+
+### What I Built
+
+A full web app with React frontend and Flask backend. Users can submit reviews and see AI responses. Admins can see all reviews with summaries and action suggestions.
+
+### Architecture
+
+Frontend is React with routing. Backend is Flask with REST API. Database is SQLite. All AI calls happen on the server - never in the browser. This keeps API keys safe.
+
+The flow is: user submits review → backend saves it → backend calls Gemini API three times (user response, summary, actions) → everything gets saved → user sees response, admin sees everything.
+
+### Design Decisions
+
+Chose React because it's good for building interactive UIs. Flask because it's simple and works well for APIs. SQLite because it's easy to set up and works fine for this use case.
+
+Separated concerns: frontend handles UI, backend handles API and AI calls, database stores everything. Used JSON schemas to validate all requests and responses.
+
+### The Prompts
+
+**User Response**: Made it acknowledge specific feedback, show appreciation, address concerns or highlight positives. Different tone for positive vs negative reviews. 4-6 sentences.
+
+**Summary**: Captures sentiment, key themes, specific details. 3-5 sentences. Professional language for business use.
+
+**Actions**: Detailed, actionable recommendations. 4-6 bullet points. Specific to the review content. Different focus based on rating - recovery for bad reviews, enhancement for neutral, maintenance for good ones.
+
+### How It Works
+
+User dashboard: pick rating, write review, submit. See AI response. Simple.
+
+Admin dashboard: see all reviews, stats, filters. Auto-refreshes. Each review shows rating, text, AI summary, and suggested actions.
+
+Backend: REST endpoints, validates input, calls AI, saves to database, handles errors.
+
+### Trade-offs and Limits
+
+SQLite is simple but not great for high traffic. React needs a build step but gives good developer experience. Server-side AI calls are slower but necessary for security.
+
+Limitations:
+- API rate limits could be an issue with lots of traffic
+- SQLite won't scale to high concurrency
+- AI calls add 2-5 seconds to submissions
+- Each review needs 3 AI calls (costs money)
+- Basic error recovery
+
+Could improve by: caching similar reviews, better retry logic, using PostgreSQL for production, adding user auth, rate limiting, analytics over time.
 
 ## Conclusion
 
-This project successfully demonstrates:
+Task 1 showed that different prompting strategies have different trade-offs. Few-shot learning seemed like the best balance for this use case.
 
-1. **Prompt Engineering**: Effective use of different prompting strategies with measurable evaluation
-2. **Production-Ready Development**: Full-stack web application with proper architecture
-3. **LLM Integration**: Secure, server-side integration of AI capabilities
-4. **User Experience**: Professional, intuitive interfaces for both users and administrators
+Task 2 is a working web app that could be extended for real use. The architecture is solid and could scale with some changes.
 
-The evaluation results from Task 1 provide insights into prompt design trade-offs, while Task 2 showcases a complete, deployable system that could be extended for real-world use.
+## Deliverables
 
----
+- GitHub repo with all code
+- Task 1 notebook with evaluation
+- Task 2 complete web app
+- This report
 
-## Deliverables Summary
-
-### GitHub Repository
-- ✅ Python notebook for Task 1 (`task1/rating_prediction.ipynb`)
-- ✅ Application code for Task 2 (backend and frontend)
-- ✅ Supporting files (schemas, prompts, configs)
-- ⏳ Deployment links (to be added)
-
-### Short Report
-- ✅ This document covering all required sections
-
-### Deployed Dashboards
-- ⏳ User Dashboard URL (to be deployed)
-- ⏳ Admin Dashboard URL (to be deployed)
-
----
-
-## Technology Stack
-
-- **LLM**: Google Gemini API (gemini-pro)
-- **Backend**: Flask (Python), SQLite
-- **Frontend**: React.js, React Router
-- **Deployment**: Vercel (frontend), Render (backend)
-- **Development**: Jupyter Notebook, VS Code
-
----
-
-## References
-
-- Yelp Reviews Dataset: https://www.kaggle.com/datasets/omkarsabnis/yelp-reviews-dataset
-- Google Gemini API: https://ai.google.dev/
-- Flask Documentation: https://flask.palletsprojects.com/
-- React Documentation: https://react.dev/
+Deployment is still in progress.

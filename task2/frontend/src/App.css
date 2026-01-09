@@ -10,26 +10,26 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #f8f9fa;
-  color: #212529;
+  background-color: #faf8f5;
+  color: #3d3d3d;
 }
 
 .app {
   min-height: 100vh;
-  background-color: #f8f9fa;
+  background-color: #faf8f5;
 }
 
 .app-nav {
   background-color: #ffffff;
-  border-bottom: 1px solid #dee2e6;
+  border-bottom: 1px solid #e8e4df;
   padding: 0;
   display: flex;
   gap: 0;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
 }
 
 .nav-link {
-  color: #495057;
+  color: #6b5d4f;
   text-decoration: none;
   font-weight: 500;
   font-size: 14px;
@@ -40,7 +40,7 @@ body {
 }
 
 .nav-link:hover {
-  color: #212529;
-  background-color: #f8f9fa;
-  border-bottom-color: #dee2e6;
+  color: #4a4035;
+  background-color: #faf8f5;
+  border-bottom-color: #d4c4b0;
 }

@@ -78,16 +78,37 @@ function AdminDashboard() {
 
       {stats && (
         <div className="stats-section">
-          <div className="stat-card">
-            <div className="stat-value">{stats.total_reviews}</div>
-            <div className="stat-label">Total Reviews</div>
-          </div>
-          {Object.entries(stats.rating_distribution || {}).map(([rating, count]) => (
-            <div key={rating} className="stat-card">
-              <div className="stat-value">{count}</div>
-              <div className="stat-label">{rating} Star{count !== 1 ? 's' : ''}</div>
+          <div className="stat-card stat-card-primary">
+            <div className="stat-icon">📊</div>
+            <div className="stat-content">
+              <div className="stat-value">{stats.total_reviews}</div>
+              <div className="stat-label">Total Reviews</div>
+              <div className="stat-description">All submissions</div>
             </div>
-          ))}
+          </div>
+          {[5, 4, 3, 2, 1].map((rating) => {
+            const count = stats.rating_distribution?.[rating] || 0;
+            const percentage = stats.total_reviews > 0 
+              ? ((count / stats.total_reviews) * 100).toFixed(1) 
+              : 0;
+            const ratingIcons = {
+              5: '⭐⭐⭐⭐⭐',
+              4: '⭐⭐⭐⭐',
+              3: '⭐⭐⭐',
+              2: '⭐⭐',
+              1: '⭐'
+            };
+            return (
+              <div key={rating} className={`stat-card stat-card-rating rating-${rating}`}>
+                <div className="stat-icon-rating">{ratingIcons[rating]}</div>
+                <div className="stat-content">
+                  <div className="stat-value">{count}</div>
+                  <div className="stat-label">{rating} Star{count !== 1 ? 's' : ''}</div>
+                  <div className="stat-percentage">{percentage}%</div>
+                </div>
+              </div>
+            );
+          })}
         </div>
       )}
 

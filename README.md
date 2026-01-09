@@ -1,5 +1,13 @@
 # Yelp Rating Prediction and Feedback System
 
+## 🚀 Live Deployment
+
+**Frontend (User Dashboard):** https://feedback-prediction-frontend-fynd.onrender.com/  
+**Admin Dashboard:** https://feedback-prediction-frontend-fynd.onrender.com/admin  
+**Backend API:** https://feedback-prediction-fynd.onrender.com
+
+---
+
 This is my assignment submission with two parts. First part is about predicting Yelp review ratings using different prompt strategies. Second part is a web app with two dashboards for handling user feedback.
 
 ## What's in Here
@@ -185,13 +193,18 @@ Opens at http://localhost:3000
 
 ## Deployment
 
-Still working on deployment. Planning to put frontend on Vercel and backend on Render.
+✅ **Successfully deployed on Render!**
 
-Both dashboards need to be:
-- Publicly accessible
-- Work without any local setup
-- Keep data when you refresh
-- Load properly
+**Frontend:** https://feedback-prediction-frontend-fynd.onrender.com/  
+**Backend:** https://feedback-prediction-fynd.onrender.com
+
+Both dashboards are:
+- ✅ Publicly accessible
+- ✅ Work without any local setup
+- ✅ Keep data when you refresh
+- ✅ Load properly
+
+Note: On Render's free tier, services may take 30-60 seconds to wake up if they've been idle for 15+ minutes.
 
 ## Results
 

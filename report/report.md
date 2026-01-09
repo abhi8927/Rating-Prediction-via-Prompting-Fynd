@@ -1,113 +1,126 @@
-# Rating Prediction Project Report
+# Project Report
 
-## Overview
+## What This Project Is About
 
-This project has two parts. First part is about testing different ways to ask an AI to predict Yelp review ratings. Second part is building a web app where users can submit reviews and admins can see them with AI summaries.
+I built two things for this assignment. First part is testing different ways to ask an AI to guess star ratings from Yelp reviews. Second part is a web app where people can leave reviews and admins can see them with AI summaries.
 
 ## Task 1: Rating Prediction
 
 ### What I Did
 
-I wanted to see which way of asking the AI works best for predicting star ratings. Used Google Gemini API and tested three different approaches on 200 Yelp reviews.
+I wanted to find out which way of asking the AI gives the best results for predicting star ratings. I used Google Gemini API and tested three different methods on 200 Yelp reviews.
 
-The process was:
-1. Get the Yelp dataset from Kaggle
-2. Sample 200 reviews for testing
-3. Create three different prompt styles
-4. Test each one and measure results
-5. Compare them
+Here's what I did:
+1. Downloaded the Yelp dataset from Kaggle
+2. Picked 200 reviews to test with
+3. Made three different types of prompts
+4. Ran each one and checked the results
+5. Compared them to see which worked best
 
-### Tech Choices
+### Tech Stuff
 
-Used Python with pandas for handling data. Google Gemini API for the AI calls. Jupyter notebook for running experiments. Built some utilities to parse JSON responses and handle errors.
+I used Python with pandas to work with the data. Google Gemini API for all the AI stuff. Jupyter notebook to run everything. I also wrote some helper code to parse the JSON responses and catch errors.
 
-### The Three Approaches
+### The Three Methods I Tried
 
-**Approach 1: Direct Classification**
+**Method 1: Just Ask Directly**
 
-Just ask the AI directly to classify the review. Simple and fast. Added clear JSON format requirements so the output is easy to parse.
+I just asked the AI to classify the review. Simple and quick. I made sure to ask for JSON format so I could parse it easily.
 
-**Approach 2: Few-Shot Learning**
+**Method 2: Give Examples First**
 
-Give the AI some examples first, then ask it to classify. This helps it understand what you want. I picked examples covering different rating levels (1-5 stars) with explanations.
+I gave the AI some examples of reviews and their ratings, then asked it to classify. This helps the AI understand what I'm looking for. I picked examples that covered all rating levels from 1 to 5 stars, with explanations.
 
-**Approach 3: Chain-of-Thought**
+**Method 3: Step by Step Thinking**
 
-Ask the AI to think through it step by step - identify positives, identify negatives, figure out sentiment, then map to a rating. This takes longer but sometimes gives better results.
+I asked the AI to think through it step by step - find the good parts, find the bad parts, figure out the overall feeling, then decide on a rating. This takes more time but sometimes gives better results.
 
-### How I Evaluated
+### How I Tested Them
 
-Measured three things:
-1. Accuracy - how many predictions matched the real ratings
-2. JSON validity - how often the response was valid JSON I could parse
-3. Valid predictions - how many I could actually extract and compare
+I measured three things:
+1. Accuracy - how many times the AI got it right
+2. JSON validity - how often the response was valid JSON I could actually use
+3. Valid predictions - how many I could extract and compare
 
-Ran each approach on all 200 reviews, parsed the responses, and calculated the metrics.
+I ran each method on all 200 reviews, parsed all the responses, and calculated the numbers.
 
-### Results
+### What I Found
 
-Direct classification was fastest but accuracy was okay. Few-shot learning did better on accuracy while keeping JSON validity high. Chain-of-thought sometimes got the best accuracy but took longer and sometimes had parsing issues.
+The direct method was fastest but accuracy was just okay. The example method did better on accuracy and still gave me valid JSON most of the time. The step-by-step method sometimes got the best accuracy but took longer and sometimes had issues with parsing.
 
-The trade-off is: simpler prompts are faster and cheaper but might not be as accurate. More complex prompts can improve accuracy but cost more and take longer.
+The main thing I learned: simpler prompts are faster and cheaper but might not be as accurate. More complex prompts can be more accurate but cost more and take longer.
 
 ## Task 2: Web App with Two Dashboards
 
 ### What I Built
 
-A full web app with React frontend and Flask backend. Users can submit reviews and see AI responses. Admins can see all reviews with summaries and action suggestions.
+I made a full web app with React for the frontend and Flask for the backend. Users can submit reviews and get AI responses back. Admins can see all the reviews with AI summaries and suggested actions.
 
-### Architecture
+### How It's Built
 
-Frontend is React with routing. Backend is Flask with REST API. Database is SQLite. All AI calls happen on the server - never in the browser. This keeps API keys safe.
+Frontend uses React with routing. Backend is Flask with REST API. Database is SQLite. All the AI calls happen on the server side - never in the browser. This keeps the API keys safe.
 
-The flow is: user submits review → backend saves it → backend calls Gemini API three times (user response, summary, actions) → everything gets saved → user sees response, admin sees everything.
+Here's how it works: user submits a review → backend saves it → backend calls Gemini API three times (once for user response, once for summary, once for actions) → everything gets saved → user sees their response, admin sees everything.
 
-### Design Decisions
+### Why I Chose These Tools
 
-Chose React because it's good for building interactive UIs. Flask because it's simple and works well for APIs. SQLite because it's easy to set up and works fine for this use case.
+I picked React because it's good for making interactive UIs. Flask because it's simple and works well for APIs. SQLite because it's easy to set up and works fine for this project.
 
-Separated concerns: frontend handles UI, backend handles API and AI calls, database stores everything. Used JSON schemas to validate all requests and responses.
+I kept things separate: frontend handles the UI, backend handles the API and AI calls, database stores everything. I used JSON schemas to make sure all requests and responses are valid.
 
-### The Prompts
+### The AI Prompts
 
-**User Response**: Made it acknowledge specific feedback, show appreciation, address concerns or highlight positives. Different tone for positive vs negative reviews. 4-6 sentences.
+**User Response**: I made it acknowledge the specific feedback, show appreciation, address any concerns or highlight good points. Different tone for positive vs negative reviews. About 4-6 sentences.
 
-**Summary**: Captures sentiment, key themes, specific details. 3-5 sentences. Professional language for business use.
+**Summary**: Captures the overall feeling, main points, specific details. About 3-5 sentences. Professional language for business use.
 
-**Actions**: Detailed, actionable recommendations. 4-6 bullet points. Specific to the review content. Different focus based on rating - recovery for bad reviews, enhancement for neutral, maintenance for good ones.
+**Actions**: Detailed recommendations that can actually be done. About 4-6 bullet points. Specific to what the review says. Different focus based on rating - recovery for bad reviews, improvement for neutral ones, maintenance for good ones.
 
 ### How It Works
 
-User dashboard: pick rating, write review, submit. See AI response. Simple.
+User dashboard: pick a rating, write your review, submit it. You see an AI response. Pretty straightforward.
 
-Admin dashboard: see all reviews, stats, filters. Auto-refreshes. Each review shows rating, text, AI summary, and suggested actions.
+Admin dashboard: see all reviews, check stats, use filters. It refreshes automatically. Each review shows the rating, the text, an AI summary, and suggested actions.
 
-Backend: REST endpoints, validates input, calls AI, saves to database, handles errors.
+Backend: REST endpoints, validates input, calls the AI, saves to database, handles errors.
 
-### Trade-offs and Limits
+### Trade-offs and Limitations
 
-SQLite is simple but not great for high traffic. React needs a build step but gives good developer experience. Server-side AI calls are slower but necessary for security.
+SQLite is simple but not great if you have tons of traffic. React needs a build step but makes development easier. Server-side AI calls are slower but you need them for security.
 
-Limitations:
-- API rate limits could be an issue with lots of traffic
-- SQLite won't scale to high concurrency
-- AI calls add 2-5 seconds to submissions
+Some limitations:
+- API rate limits could be a problem with lots of traffic
+- SQLite won't handle high concurrency well
+- AI calls add 2-5 seconds to each submission
 - Each review needs 3 AI calls (costs money)
 - Basic error recovery
 
-Could improve by: caching similar reviews, better retry logic, using PostgreSQL for production, adding user auth, rate limiting, analytics over time.
+Things I could improve: cache similar reviews, better retry logic, use PostgreSQL for production, add user authentication, rate limiting, analytics over time.
 
-## Conclusion
+## Deployment
 
-Task 1 showed that different prompting strategies have different trade-offs. Few-shot learning seemed like the best balance for this use case.
+Everything is deployed and working on Render.
 
-Task 2 is a working web app that could be extended for real use. The architecture is solid and could scale with some changes.
+**Frontend (User Dashboard):** https://feedback-prediction-frontend-fynd.onrender.com/
 
-## Deliverables
+**Admin Dashboard:** https://feedback-prediction-frontend-fynd.onrender.com/admin
 
-- GitHub repo with all code
-- Task 1 notebook with evaluation
-- Task 2 complete web app
+**Backend API:** https://feedback-prediction-fynd.onrender.com
+
+Both dashboards are publicly accessible and work without any local setup. Data persists across page refreshes. On Render's free tier, services might take 30-60 seconds to wake up if they've been idle for 15+ minutes, but once they're up they work fine.
+
+## What I Learned
+
+Task 1 showed me that different ways of asking the AI have different trade-offs. The example method seemed like the best balance for this use case.
+
+Task 2 is a working web app that could be used for real. The setup is solid and could be scaled up with some changes.
+
+## What's Included
+
+- GitHub repo with all the code: https://github.com/abhi8927/Rating-Prediction-via-Prompting-Fynd
+- Task 1 notebook with all the evaluation: `task1/rating_prediction.ipynb`
+- Task 2 complete web app (backend and frontend)
 - This report
+- All deployed and working
 
-Deployment is still in progress.
+Everything is done and deployed.

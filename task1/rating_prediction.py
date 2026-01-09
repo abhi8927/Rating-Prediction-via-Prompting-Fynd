@@ -14,6 +14,10 @@ import json
 import os
 from typing import List, Dict
 import sys
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 # Add paths for imports
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
@@ -23,7 +27,7 @@ from utils.evaluation import evaluate_approach, calculate_accuracy, calculate_js
 # Configure Gemini API
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 if not GEMINI_API_KEY:
-    print("Warning: GEMINI_API_KEY not found. Please set it in your environment.")
+    print("Warning: GEMINI_API_KEY not found. Please set it in your environment or .env file.")
     print("You can get an API key from: https://makersuite.google.com/app/apikey")
 
 genai.configure(api_key=GEMINI_API_KEY)

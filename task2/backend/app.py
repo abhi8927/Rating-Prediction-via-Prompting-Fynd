@@ -12,7 +12,28 @@ import os
 from dotenv import load_dotenv
 
 # Load environment variables from .env file
-load_dotenv()
+env_path = os.path.join(os.path.dirname(__file__), '.env')
+if os.path.exists(env_path):
+    load_dotenv(env_path)
+else:
+    # Fallback: try loading from current directory
+    load_dotenv()
+
+# Set API key if not found (for testing)
+if not os.getenv('GEMINI_API_KEY'):
+    # Try reading from .env file manually
+    try:
+        with open(env_path, 'r', encoding='utf-8') as f:
+            for line in f:
+                if line.startswith('GEMINI_API_KEY='):
+                    os.environ['GEMINI_API_KEY'] = line.split('=', 1)[1].strip()
+                    break
+    except Exception as e:
+        pass
+    
+    # Fallback: set directly if still not found
+    if not os.getenv('GEMINI_API_KEY'):
+        os.environ['GEMINI_API_KEY'] = 'AIzaSyDnfybUacyg2A4WqPR7GjhuLVY00r18xh4'
 
 app = Flask(__name__)
 CORS(app)

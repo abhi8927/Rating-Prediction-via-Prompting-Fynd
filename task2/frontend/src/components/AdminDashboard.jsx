@@ -51,7 +51,16 @@ function AdminDashboard() {
     if (!dateString) return 'N/A';
     try {
       const date = new Date(dateString);
-      return date.toLocaleString();
+      const options = {
+        timeZone: 'Asia/Kolkata',
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: true
+      };
+      return date.toLocaleString('en-IN', options);
     } catch {
       return dateString;
     }
@@ -79,11 +88,10 @@ function AdminDashboard() {
       {stats && (
         <div className="stats-section">
           <div className="stat-card stat-card-primary">
-            <div className="stat-icon">📊</div>
             <div className="stat-content">
               <div className="stat-value">{stats.total_reviews}</div>
               <div className="stat-label">Total Reviews</div>
-              <div className="stat-description">All submissions</div>
+              <div className="stat-description">All submissions received</div>
             </div>
           </div>
           {[5, 4, 3, 2, 1].map((rating) => {
@@ -91,20 +99,13 @@ function AdminDashboard() {
             const percentage = stats.total_reviews > 0 
               ? ((count / stats.total_reviews) * 100).toFixed(1) 
               : 0;
-            const ratingIcons = {
-              5: '⭐⭐⭐⭐⭐',
-              4: '⭐⭐⭐⭐',
-              3: '⭐⭐⭐',
-              2: '⭐⭐',
-              1: '⭐'
-            };
             return (
-              <div key={rating} className={`stat-card stat-card-rating rating-${rating}`}>
-                <div className="stat-icon-rating">{ratingIcons[rating]}</div>
+              <div key={rating} className="stat-card stat-card-rating">
                 <div className="stat-content">
+                  <div className="stat-rating-display">{rating}</div>
                   <div className="stat-value">{count}</div>
-                  <div className="stat-label">{rating} Star{count !== 1 ? 's' : ''}</div>
-                  <div className="stat-percentage">{percentage}%</div>
+                  <div className="stat-label">Reviews</div>
+                  <div className="stat-percentage">{percentage}% of total</div>
                 </div>
               </div>
             );

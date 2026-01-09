@@ -41,14 +41,29 @@ def load_yelp_data(file_path: str, sample_size: int = 200) -> pd.DataFrame:
     print(f"Loading data from {file_path}...")
     try:
         df = pd.read_csv(file_path)
+        print(f"Total rows in dataset: {len(df)}")
+        
+        # Sample the data
         if len(df) > sample_size:
             df = df.sample(n=sample_size, random_state=42).reset_index(drop=True)
-        print(f"Loaded {len(df)} reviews")
+            print(f"Sampled {sample_size} reviews for evaluation")
+        else:
+            print(f"Using all {len(df)} reviews (less than sample size)")
+        
+        # Verify required columns exist
+        if 'text' not in df.columns or 'stars' not in df.columns:
+            print("Error: Dataset must contain 'text' and 'stars' columns")
+            print(f"Available columns: {df.columns.tolist()}")
+            return pd.DataFrame()
+        
+        print(f"Successfully loaded {len(df)} reviews")
         return df
     except FileNotFoundError:
         print(f"Error: File {file_path} not found.")
-        print("Please download the Yelp dataset from:")
-        print("https://www.kaggle.com/datasets/omkarsabnis/yelp-reviews-dataset")
+        print("Please ensure yelp.csv is in the data/ directory")
+        return pd.DataFrame()
+    except Exception as e:
+        print(f"Error loading dataset: {e}")
         return pd.DataFrame()
 
 
@@ -73,10 +88,11 @@ def run_evaluation(df: pd.DataFrame, approach_name: str, prompt_func) -> Dict:
     actual_ratings = []
     
     for idx, row in df.iterrows():
-        review_text = str(row.get('text', row.get('review', '')))
-        actual_rating = int(row.get('stars', row.get('rating', 3)))
+        review_text = str(row.get('text', ''))
+        actual_rating = int(row.get('stars', 3))
         
-        if not review_text:
+        # Skip if review text is empty or invalid
+        if not review_text or review_text == 'nan' or len(review_text.strip()) == 0:
             continue
         
         prompt = prompt_func(review_text)
@@ -102,7 +118,7 @@ def main():
     print("=" * 60)
     
     # Load data
-    data_file = "data/yelp_reviews_sample.csv"
+    data_file = "data/yelp.csv"
     df = load_yelp_data(data_file)
     
     if df.empty:

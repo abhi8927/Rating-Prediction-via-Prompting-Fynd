@@ -1,15 +1,17 @@
 .admin-dashboard {
   min-height: calc(100vh - 60px);
   background: linear-gradient(to bottom, #faf8f5 0%, #f5f1eb 100%);
-  padding: 32px 20px;
+  padding: 40px 20px;
 }
 
 .dashboard-header {
   max-width: 1200px;
-  margin: 0 auto 32px;
+  margin: 0 auto 40px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding-bottom: 24px;
+  border-bottom: 2px solid #e8e4df;
 }
 
 .dashboard-header h1 {
@@ -49,99 +51,133 @@
   font-size: 14px;
 }
 
-.stats-section {
+.stats-container {
   max-width: 1200px;
   margin: 0 auto 40px;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  gap: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
 }
 
-.stat-card {
-  background: #ffffff;
-  padding: 24px 20px;
-  border-radius: 8px;
-  box-shadow: 0 1px 4px rgba(107, 93, 79, 0.08);
-  border: 1px solid #e8e4df;
-  transition: all 0.2s ease;
-  text-align: center;
-}
-
-.stat-card:hover {
-  box-shadow: 0 3px 10px rgba(107, 93, 79, 0.12);
-  transform: translateY(-2px);
-  border-color: #d4c4b0;
+.stats-overview {
+  display: flex;
+  justify-content: center;
 }
 
 .stat-card-primary {
   background: #ffffff;
-  border: 1px solid #d4c4b0;
+  padding: 32px 40px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(107, 93, 79, 0.08);
+  border: 1px solid #e8e4df;
+  text-align: center;
+  min-width: 200px;
 }
 
-.stat-card-rating {
-  background: #ffffff;
-}
-
-.stat-content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-}
-
-.stat-rating-display {
-  font-size: 20px;
-  font-weight: 600;
-  color: #6b5d4f;
-  margin-bottom: 8px;
-  padding: 4px 12px;
-  background: #f5f1eb;
-  border-radius: 6px;
-  display: inline-block;
-  min-width: 40px;
-}
-
-.stat-value {
-  font-size: 32px;
+.stat-value-large {
+  font-size: 48px;
   font-weight: 600;
   color: #4a4035;
-  line-height: 1.1;
-  letter-spacing: -0.01em;
-  margin: 4px 0;
+  line-height: 1;
+  margin-bottom: 8px;
+  letter-spacing: -0.02em;
 }
 
-.stat-label {
+.stat-label-large {
   color: #6b5d4f;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 500;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
-  margin-top: 2px;
+  letter-spacing: 0.1em;
 }
 
-.stat-description {
-  color: #8b7d6b;
-  font-size: 11px;
-  font-weight: 400;
-  text-transform: none;
-  letter-spacing: 0;
-  margin-top: 6px;
-  line-height: 1.4;
+.rating-breakdown {
+  background: #ffffff;
+  padding: 28px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(107, 93, 79, 0.08);
+  border: 1px solid #e8e4df;
 }
 
-.stat-percentage {
-  color: #8b7d6b;
-  font-size: 11px;
-  font-weight: 400;
-  margin-top: 6px;
+.breakdown-title {
+  color: #4a4035;
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.rating-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.rating-bar-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.rating-bar-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 120px;
+}
+
+.star-display {
+  font-size: 14px;
+  color: #d4a574;
+  font-weight: 500;
+  letter-spacing: 2px;
+}
+
+.rating-count {
+  font-size: 16px;
+  font-weight: 600;
+  color: #4a4035;
+  min-width: 30px;
+  text-align: right;
+}
+
+.rating-bar-container {
+  flex: 1;
+  height: 24px;
+  background: #f5f1eb;
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+}
+
+.rating-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #d4a574 0%, #c4956a 100%);
+  border-radius: 12px;
+  transition: width 0.3s ease;
+  min-width: 2px;
+}
+
+.rating-percentage {
+  font-size: 13px;
+  font-weight: 500;
+  color: #6b5d4f;
+  min-width: 50px;
+  text-align: right;
 }
 
 .filters-section {
   max-width: 1200px;
-  margin: 0 auto 24px;
+  margin: 0 auto 32px;
   display: flex;
   align-items: center;
   gap: 12px;
+  background: #ffffff;
+  padding: 16px 20px;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(107, 93, 79, 0.06);
+  border: 1px solid #e8e4df;
 }
 
 .filters-section label {

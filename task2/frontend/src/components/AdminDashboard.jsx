@@ -86,30 +86,41 @@ function AdminDashboard() {
       {error && <div className="error-banner">{error}</div>}
 
       {stats && (
-        <div className="stats-section">
-          <div className="stat-card stat-card-primary">
-            <div className="stat-content">
-              <div className="stat-value">{stats.total_reviews}</div>
-              <div className="stat-label">Total Reviews</div>
-              <div className="stat-description">All submissions received</div>
+        <div className="stats-container">
+          <div className="stats-overview">
+            <div className="stat-card-primary">
+              <div className="stat-value-large">{stats.total_reviews}</div>
+              <div className="stat-label-large">Total Reviews</div>
             </div>
           </div>
-          {[5, 4, 3, 2, 1].map((rating) => {
-            const count = stats.rating_distribution?.[rating] || 0;
-            const percentage = stats.total_reviews > 0 
-              ? ((count / stats.total_reviews) * 100).toFixed(1) 
-              : 0;
-            return (
-              <div key={rating} className="stat-card stat-card-rating">
-                <div className="stat-content">
-                  <div className="stat-rating-display">{rating}</div>
-                  <div className="stat-value">{count}</div>
-                  <div className="stat-label">Reviews</div>
-                  <div className="stat-percentage">{percentage}% of total</div>
-                </div>
-              </div>
-            );
-          })}
+          
+          <div className="rating-breakdown">
+            <h3 className="breakdown-title">Rating Distribution</h3>
+            <div className="rating-bars">
+              {[5, 4, 3, 2, 1].map((rating) => {
+                const count = stats.rating_distribution?.[rating] || 0;
+                const percentage = stats.total_reviews > 0 
+                  ? ((count / stats.total_reviews) * 100) 
+                  : 0;
+                const stars = '★'.repeat(rating);
+                return (
+                  <div key={rating} className="rating-bar-item">
+                    <div className="rating-bar-header">
+                      <span className="star-display">{stars}</span>
+                      <span className="rating-count">{count}</span>
+                    </div>
+                    <div className="rating-bar-container">
+                      <div 
+                        className="rating-bar-fill" 
+                        style={{ width: `${percentage}%` }}
+                      ></div>
+                    </div>
+                    <div className="rating-percentage">{percentage.toFixed(1)}%</div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
         </div>
       )}
 

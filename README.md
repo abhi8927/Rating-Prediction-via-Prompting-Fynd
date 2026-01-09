@@ -47,7 +47,7 @@ I'll create a comparison table showing how each approach performs and discuss th
 
 ### Where the Code Lives
 
-The main notebook is in `task1/rating_prediction.ipynb`. I've organized the prompts in `task1/prompts/` and evaluation functions in `task1/utils/evaluation.py`.
+The main notebook is in `task1/rating_prediction.ipynb`. There's also a Python script version at `task1/rating_prediction.py` for command-line execution. I've organized the prompts in `task1/prompts/` and evaluation functions in `task1/utils/evaluation.py`.
 
 ---
 
@@ -100,8 +100,9 @@ Here's how I've organized the code:
 fynd-assignment/
 ├── task1/
 │   ├── rating_prediction.ipynb
+│   ├── rating_prediction.py
 │   ├── data/
-│   │   └── yelp_reviews_sample.csv
+│   │   └── yelp.csv
 │   ├── prompts/
 │   │   └── prompt_versions.py
 │   └── utils/
@@ -164,13 +165,25 @@ cd Rating-Prediction-via-Prompting-Fynd
 Navigate to the task1 directory and install the required packages:
 ```bash
 cd task1
-pip install jupyter pandas google-generativeai
+pip install jupyter pandas google-generativeai python-dotenv
 ```
 
-Then launch Jupyter and open the notebook:
+Create a `.env` file in the task1 directory with your Gemini API key:
+```
+GEMINI_API_KEY=your_api_key_here
+```
+
+**Option 1: Run as Jupyter Notebook**
 ```bash
 jupyter notebook rating_prediction.ipynb
 ```
+
+**Option 2: Run as Python Script**
+```bash
+python rating_prediction.py
+```
+
+The dataset file `yelp.csv` should be placed in the `task1/data/` directory.
 
 ### Setting Up Task 2 Backend
 
@@ -237,17 +250,21 @@ npm start
 
 ### Deployment Links
 
-User Dashboard: To be deployed
-Admin Dashboard: To be deployed
+User Dashboard: ⏳ To be deployed  
+Admin Dashboard: ⏳ To be deployed
 
-### Where I'm Deploying
+### Deployment Plan
 
-- Frontend will be on Vercel or Render
-- Backend will be on Render or a similar platform
+- Frontend: Vercel or Render
+- Backend: Render or similar platform
 
 ### Deployment Requirements
 
-Both dashboards need to be publicly accessible, data must persist across page refreshes, everything should work without manual intervention, and the pages need to load successfully.
+Both dashboards must be:
+- Publicly accessible via URLs
+- Functional without local setup
+- Data must persist across page refreshes
+- Pages must load successfully
 
 ---
 
@@ -255,12 +272,14 @@ Both dashboards need to be publicly accessible, data must persist across page re
 
 ### Task 1 Metrics
 
-I'll be measuring:
-- Accuracy: how many predictions match the actual ratings
-- JSON validity rate: how often the responses are valid JSON
-- Consistency: how reliable the results are when run multiple times
+The evaluation measures:
+- **Accuracy**: Percentage of predictions that match the actual ratings
+- **JSON validity rate**: Percentage of responses that contain valid, parseable JSON
+- **Consistency**: Reliability of results across multiple runs
 
-The full results and comparison table will be in the notebook and the report.
+The full results, comparison table, and detailed analysis are available in:
+- The Jupyter notebook: `task1/rating_prediction.ipynb`
+- The project report: `report/report.md`
 
 ---
 
@@ -268,23 +287,25 @@ The full results and comparison table will be in the notebook and the report.
 
 ### GitHub Repository
 
-- Python notebook for Task 1
-- Application code for Task 2
-- Supporting files like schemas, prompts, and configs
-- Deployment links (working on this)
+- ✅ Python notebook for Task 1 (`task1/rating_prediction.ipynb`)
+- ✅ Application code for Task 2 (backend and frontend)
+- ✅ Supporting files (schemas, prompts, configs, evaluation utilities)
+- ⏳ Deployment links (to be added)
 
 ### Short Report
 
-The report will cover:
-- My overall approach to both tasks
-- Design and architecture decisions I made
-- How I iterated and improved the prompts
+The report is available at `report/report.md` and covers:
+- Overall approach to both tasks
+- Design and architecture decisions
+- Prompt iterations and improvements
 - Evaluation methodology and results for Task 1
 - System behavior, trade-offs, and limitations for Task 2
 
+The report can be converted to PDF format for submission.
+
 ### Deployed Dashboards
 
-Both dashboards need to be fully deployed with public URLs.
+⏳ Both dashboards need to be fully deployed with public URLs (deployment in progress).
 
 ---
 

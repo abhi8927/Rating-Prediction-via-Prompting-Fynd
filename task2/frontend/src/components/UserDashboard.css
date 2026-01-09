@@ -45,9 +45,28 @@
   letter-spacing: 0.01em;
 }
 
+.star-rating-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
 .star-rating {
   display: flex;
   gap: 8px;
+  justify-content: center;
+}
+
+.rating-label-display {
+  text-align: center;
+  color: #6b5d4f;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 6px 12px;
+  background: #f5f1eb;
+  border-radius: 6px;
+  display: inline-block;
+  align-self: center;
 }
 
 .star-button {
@@ -106,11 +125,27 @@
   color: #8b7d6b;
 }
 
+.textarea-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 8px;
+}
+
 .char-count {
-  text-align: right;
+  color: #8b7d6b;
+  font-size: 12px;
+}
+
+.char-count .char-warning {
+  color: #c97d60;
+  font-weight: 600;
+}
+
+.review-tips {
   color: #b8a99a;
-  font-size: 13px;
-  margin-top: 6px;
+  font-size: 11px;
+  font-style: italic;
 }
 
 .submit-button {
@@ -154,24 +189,59 @@
 }
 
 .ai-response-section {
-  margin-top: 32px;
+  margin-top: 40px;
   padding-top: 32px;
-  border-top: 1px solid #e8e4df;
+  border-top: 2px solid #e8e4df;
+}
+
+.success-header {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.success-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #d4a574 0%, #c4956a 100%);
+  color: #ffffff;
+  font-size: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+  font-weight: 600;
 }
 
 .ai-response-section h2 {
   color: #4a4035;
-  margin-bottom: 16px;
-  font-size: 20px;
+  margin-bottom: 8px;
+  font-size: 22px;
   font-weight: 600;
+}
+
+.success-message {
+  color: #6b5d4f;
+  font-size: 14px;
+  margin: 0;
 }
 
 .ai-response-box {
   background: linear-gradient(to right, #faf8f5 0%, #fffbf7 100%);
-  padding: 20px 24px;
-  border-radius: 6px;
+  padding: 24px 28px;
+  border-radius: 8px;
   border-left: 3px solid #d4a574;
-  box-shadow: 0 1px 3px rgba(107, 93, 79, 0.05);
+  box-shadow: 0 2px 6px rgba(107, 93, 79, 0.06);
+  margin-bottom: 20px;
+}
+
+.response-label {
+  color: #8b7d6b;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 12px;
 }
 
 .ai-response-box p {
@@ -179,4 +249,24 @@
   line-height: 1.7;
   margin: 0;
   font-size: 15px;
+}
+
+.submit-another-button {
+  background: #ffffff;
+  color: #6b5d4f;
+  border: 1px solid #e8e4df;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  display: block;
+  margin: 0 auto;
+}
+
+.submit-another-button:hover {
+  background: #faf8f5;
+  border-color: #d4c4b0;
+  color: #4a4035;
 }

@@ -15,6 +15,14 @@ function UserDashboard() {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
 
+  const ratingLabels = {
+    5: 'Excellent',
+    4: 'Good',
+    3: 'Average',
+    2: 'Poor',
+    1: 'Terrible'
+  };
+
   const handleRatingClick = (value) => {
     setRating(value);
     setError('');
@@ -69,34 +77,52 @@ function UserDashboard() {
 
         <form onSubmit={handleSubmit} className="review-form">
           <div className="rating-section">
-            <label>Rating</label>
-            <div className="star-rating">
-              {[1, 2, 3, 4, 5].map((value) => (
-                <button
-                  key={value}
-                  type="button"
-                  className={`star-button ${rating >= value ? 'selected' : ''}`}
-                  onClick={() => handleRatingClick(value)}
-                  disabled={isSubmitting}
-                >
-                  ★
-                </button>
-              ))}
+            <label>How would you rate your experience?</label>
+            <div className="star-rating-container">
+              <div className="star-rating">
+                {[1, 2, 3, 4, 5].map((value) => (
+                  <button
+                    key={value}
+                    type="button"
+                    className={`star-button ${rating >= value ? 'selected' : ''}`}
+                    onClick={() => handleRatingClick(value)}
+                    disabled={isSubmitting}
+                    title={ratingLabels[value]}
+                  >
+                    ★
+                  </button>
+                ))}
+              </div>
+              {rating > 0 && (
+                <div className="rating-label-display">
+                  {ratingLabels[rating]}
+                </div>
+              )}
             </div>
           </div>
 
           <div className="review-section">
-            <label htmlFor="review-text">Your Review</label>
+            <label htmlFor="review-text">Share your experience</label>
             <textarea
               id="review-text"
               value={reviewText}
               onChange={(e) => setReviewText(e.target.value)}
-              placeholder="Write your review here..."
-              rows="6"
+              placeholder="Tell us about your experience. What did you like? What could be improved?"
+              rows="7"
               maxLength={5000}
               disabled={isSubmitting}
             />
-            <div className="char-count">{reviewText.length} / 5000</div>
+            <div className="textarea-footer">
+              <div className="char-count">
+                <span className={reviewText.length > 4500 ? 'char-warning' : ''}>
+                  {reviewText.length}
+                </span>
+                <span> / 5000 characters</span>
+              </div>
+              <div className="review-tips">
+                Tips: Be specific about your experience
+              </div>
+            </div>
           </div>
 
           {error && <div className="error-message">{error}</div>}
@@ -112,10 +138,26 @@ function UserDashboard() {
 
         {success && aiResponse && (
           <div className="ai-response-section">
-            <h2>Thank you for your feedback!</h2>
+            <div className="success-header">
+              <div className="success-icon">✓</div>
+              <h2>Thank you for your feedback!</h2>
+              <p className="success-message">Your review has been submitted successfully.</p>
+            </div>
             <div className="ai-response-box">
+              <div className="response-label">Our Response</div>
               <p>{aiResponse}</p>
             </div>
+            <button 
+              className="submit-another-button"
+              onClick={() => {
+                setSuccess(false);
+                setAiResponse('');
+                setRating(0);
+                setReviewText('');
+              }}
+            >
+              Submit Another Review
+            </button>
           </div>
         )}
       </div>
